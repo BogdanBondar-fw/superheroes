@@ -1,11 +1,13 @@
 #!/bin/sh
 set -e
 
-echo "🔄 Running database migrations..."
-npx prisma migrate deploy
+echo "🔄 Starting application with database setup..."
 
 echo "🔄 Generating Prisma client..."
 npx prisma generate
 
+echo "🔄 Running database migrations..."
+npx prisma migrate deploy || echo "⚠️ Migrations failed, continuing..."
+
 echo "🚀 Starting application..."
-node dist/src/main.js
+exec node dist/src/main.js
