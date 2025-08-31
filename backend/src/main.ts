@@ -52,5 +52,17 @@ async function bootstrap() {
   console.log(`[Bootstrap] Available routes:`);
   console.log(`  GET  ${host}:${port}/api/health`);
   console.log(`  GET  ${host}:${port}/api/heroes`);
+
+  // Self-test: check if the app actually responds
+  setTimeout(() => {
+    fetch(`http://localhost:${port}/api/health`)
+      .then((response) => response.text())
+      .then((result) => {
+        console.log(`[Bootstrap] Self-test: /api/health responded with status: ${result}`);
+      })
+      .catch((err) => {
+        console.error(`[Bootstrap] Self-test failed:`, err);
+      });
+  }, 2000);
 }
 void bootstrap();
