@@ -20,8 +20,12 @@ async function bootstrap() {
     // (Removed global prefix to avoid duplicate /api/api paths – controllers already include 'api/' where needed)
 
     // Log all incoming requests for debugging (very lightweight)
-    app.use((req: Request, _res: Response, next: NextFunction) => {
+    app.use((req: Request, res: Response, next: NextFunction) => {
       console.log(`[REQ] ${req.method} ${req.url}`);
+      if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
+        console.log(`[REQ] Body:`, JSON.stringify(req.body, null, 2));
+        console.log(`[REQ] Content-Type:`, req.headers['content-type']);
+      }
       next();
     });
 
@@ -35,7 +39,14 @@ async function bootstrap() {
     console.log('[Bootstrap] CORS configured');
 
     app.useGlobalPipes(
-      new ValidationPipe({ whitelist: true, transform: true, forbidUnknownValues: false })
+      new ValidationPipe({
+        whitelist: true,
+        transform: true,
+        forbidUnknownValues: false,
+        skipMissingProperties: false,
+        skipNullProperties: false,
+        skipUndefinedProperties: false,
+      })
     );
     console.log('[Bootstrap] Global pipes configured');
 

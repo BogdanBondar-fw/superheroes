@@ -11,10 +11,18 @@ export class HeroesService {
     try {
       console.log('[HeroesService] create called with:', JSON.stringify(dto, null, 2));
 
+      // Check if Prisma client is available
+      if (!this.prisma.client) {
+        console.error('[HeroesService] Prisma client is not available');
+        throw new Error('Database connection not available');
+      }
+
       const imagesToCreate = (dto.images || [])
         .map((imageUrl) => (imageUrl || '').trim())
         .filter((imageUrl) => imageUrl.length > 0)
         .map((url) => ({ url })); // Prisma syntax for nested create
+
+      console.log('[HeroesService] Creating hero with images:', imagesToCreate.length);
 
       const result = await this.prisma.client.superhero.create({
         data: {
@@ -36,6 +44,17 @@ export class HeroesService {
       return result;
     } catch (error) {
       console.error('[HeroesService] create error:', error);
+      console.error('[HeroesService] error name:', error instanceof Error ? error.name : 'Unknown');
+      console.error(
+        '[HeroesService] error message:',
+        error instanceof Error ? error.message : 'Unknown error'
+      );
+      console.error(
+        '[HeroesService] error stack:',
+        error instanceof Error ? error.stack : 'No stack trace'
+      );
+
+      // Re-throw the error so the controller can handle it
       throw error;
     }
   }
