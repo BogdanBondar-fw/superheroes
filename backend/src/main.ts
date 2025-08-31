@@ -5,12 +5,6 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  // --- CORS --------------------------------------------------------------
-  // Some hosting platforms (or intermediaries returning error pages) may omit
-  // CORS headers on failure responses causing the frontend to see
-  // "No 'Access-Control-Allow-Origin'". We configure CORS explicitly.
-  // FRONTEND_ORIGIN may contain a single origin or a comma-separated list.
   const originsEnv = process.env.FRONTEND_ORIGIN;
   const explicitOrigins = originsEnv
     ? originsEnv
