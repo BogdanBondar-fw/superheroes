@@ -9,15 +9,23 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
     console.log('[Prisma] Initializing PrismaService...');
     console.log(`[Prisma] DATABASE_URL is ${process.env.DATABASE_URL ? 'set' : 'not set'}`);
 
+    if (!process.env.DATABASE_URL) {
+      throw new Error('DATABASE_URL is not set');
+    }
+
+    const url = new URL(process.env.DATABASE_URL);
+    url.searchParams.set('connect_timeout', '30');
+    url.searchParams.set('pool_timeout', '30');
+
     this.client = new PrismaClient({
       log: ['info', 'warn', 'error'],
       datasources: {
         db: {
-          url: process.env.DATABASE_URL,
+          url: url.toString(),
         },
       },
     });
-    console.log('[Prisma] PrismaClient created successfully');
+    console.log('[Prisma] PrismaClient created with extended timeouts');
   }
 
   async onModuleInit(): Promise<void> {
@@ -27,7 +35,6 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
       console.log('[Prisma] ✅ Connected to database successfully');
     } catch (e) {
       console.error('[Prisma] ❌ Connection failed:', (e as Error).message);
-      // Don't throw - let app start even if DB connection fails
       console.error('[Prisma] App will continue without database');
     }
   }
