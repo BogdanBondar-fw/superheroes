@@ -57,14 +57,33 @@ async function bootstrap() {
 
   // Self-test: check if the app actually responds
   setTimeout(() => {
-    fetch(`http://localhost:${port}/api/health`)
-      .then((response) => response.text())
-      .then((result) => {
-        console.log(`[Bootstrap] Self-test: /api/health responded with status: ${result}`);
-      })
-      .catch((err) => {
-        console.error(`[Bootstrap] Self-test failed:`, err);
-      });
+    // Test multiple endpoints
+    const testEndpoints = [
+      `http://localhost:${port}/`,
+      `http://localhost:${port}/api/health`,
+      `http://localhost:${port}/api/heroes?page=1`,
+    ];
+    
+    testEndpoints.forEach((endpoint) => {
+      fetch(endpoint)
+        .then((response) => {
+          return response.text().then((result) => ({ response, result }));
+        })
+        .then(({ response, result }) => {
+          console.log(
+            `[Bootstrap] ✅ ${endpoint} -> ${response.status}: ${result.substring(0, 100)}`
+          );
+        })
+        .catch((err) => {
+          console.error(`[Bootstrap] ❌ ${endpoint} failed:`, String(err));
+        });
+    });
   }, 2000);
+  
+  // Log environment info
+  console.log(`[Bootstrap] Environment info:`);
+  console.log(`  NODE_ENV: ${process.env.NODE_ENV}`);
+  console.log(`  PORT: ${process.env.PORT}`);
+  console.log(`  RAILWAY_DEPLOYMENT_ID: ${process.env.RAILWAY_DEPLOYMENT_ID || 'not set'}`);
 }
 void bootstrap();
