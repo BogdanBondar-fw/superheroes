@@ -17,22 +17,12 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     console.log('[Bootstrap] NestJS app created successfully');
 
-    // No global prefix - let each controller define its own path
+  // Set global prefix for API (health root endpoints still exist via RailwayHealthController)
+  app.setGlobalPrefix('api');
 
-    // Log all incoming requests for debugging
-    app.use((req: Request, res: Response, next: NextFunction) => {
-      console.log(
-        `[REQUEST] ${req.method} ${req.url} from ${req.ip || req.socket?.remoteAddress || 'unknown'}`
-      );
-      next();
-    });
-
-    // Global error handler for better debugging
-    app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-      console.error('[GLOBAL ERROR]:', err);
-      if (!res.headersSent) {
-        res.status(500).json({ statusCode: 500, message: 'Internal server error' });
-      }
+    // Log all incoming requests for debugging (very lightweight)
+    app.use((req: Request, _res: Response, next: NextFunction) => {
+      console.log(`[REQ] ${req.method} ${req.url}`);
       next();
     });
 
@@ -52,7 +42,8 @@ async function bootstrap() {
 
     const port = process.env.PORT ?? 3000;
     const host = '0.0.0.0'; // Bind to all interfaces for Render
-    console.log(`[Bootstrap] About to listen on ${host}:${port}`);
+  console.log(`[Bootstrap] About to listen on ${host}:${port}`);
+    
     console.log(`[Bootstrap] Render Environment Variables:`);
     console.log(`  PORT: ${process.env.PORT}`);
     console.log(`  RENDER_SERVICE_ID: ${process.env.RENDER_SERVICE_ID || 'not set'}`);
@@ -79,3 +70,11 @@ async function bootstrap() {
   }
 }
 void bootstrap();
+
+// Process-level safety nets for visibility
+process.on('unhandledRejection', (reason) => {
+  console.error('[Process] Unhandled Rejection:', reason);
+});
+process.on('uncaughtException', (err) => {
+  console.error('[Process] Uncaught Exception:', err);
+});
