@@ -17,8 +17,7 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     console.log('[Bootstrap] NestJS app created successfully');
 
-  // Set global prefix for API (health root endpoints still exist via RailwayHealthController)
-  app.setGlobalPrefix('api');
+    // (Removed global prefix to avoid duplicate /api/api paths – controllers already include 'api/' where needed)
 
     // Log all incoming requests for debugging (very lightweight)
     app.use((req: Request, _res: Response, next: NextFunction) => {
@@ -42,8 +41,8 @@ async function bootstrap() {
 
     const port = process.env.PORT ?? 3000;
     const host = '0.0.0.0'; // Bind to all interfaces for Render
-  console.log(`[Bootstrap] About to listen on ${host}:${port}`);
-    
+    console.log(`[Bootstrap] About to listen on ${host}:${port}`);
+
     console.log(`[Bootstrap] Render Environment Variables:`);
     console.log(`  PORT: ${process.env.PORT}`);
     console.log(`  RENDER_SERVICE_ID: ${process.env.RENDER_SERVICE_ID || 'not set'}`);

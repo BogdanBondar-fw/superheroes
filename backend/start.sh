@@ -10,12 +10,12 @@ echo "🔄 Generating Prisma client..."
 npx prisma generate
 
 echo "🔄 Testing database connection..."
-if npx prisma db execute --stdin <<< "SELECT 1;" 2>/dev/null; then
-    echo "✅ Database connection works"
-    echo "🔄 Running migrations..."
-    npx prisma migrate deploy || echo "⚠️ Migrations failed, continuing..."
+if echo "SELECT 1;" | npx prisma db execute --stdin >/dev/null 2>&1; then
+  echo "✅ Database connection works"
+  echo "🔄 Running migrations..."
+  npx prisma migrate deploy || echo "⚠️ Migrations failed, continuing..."
 else
-    echo "⚠️ Database connection failed, starting app anyway..."
+  echo "⚠️ Database connection failed, starting app anyway..."
 fi
 
 echo "🚀 Starting application..."
