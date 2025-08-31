@@ -35,4 +35,4 @@ async function fixInvalidImageUrls() {
   }
 }
 
-fixInvalidImageUrls();
+fixInvalidImageUrls().catch(console.error);

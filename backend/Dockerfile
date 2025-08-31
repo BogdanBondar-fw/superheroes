@@ -26,4 +26,4 @@ ENV NODE_ENV=production
 # Railway will set PORT environment variable
 EXPOSE $PORT
 
-CMD ["node", "dist/main"]
+CMD ["node", "dist/main.js"]
