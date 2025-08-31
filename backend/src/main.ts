@@ -26,7 +26,10 @@ async function bootstrap() {
       if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
         console.log(`[REQ] Raw Body:`, req.body);
         console.log(`[REQ] Body Type:`, typeof req.body);
-        console.log(`[REQ] Body Keys:`, req.body ? Object.keys(req.body as Record<string, unknown>) : []);
+        console.log(
+          `[REQ] Body Keys:`,
+          req.body ? Object.keys(req.body as Record<string, unknown>) : []
+        );
         console.log(`[REQ] Content-Type:`, req.headers['content-type']);
         console.log(`[REQ] Content-Length:`, req.headers['content-length']);
       }
@@ -42,17 +45,7 @@ async function bootstrap() {
     });
     console.log('[Bootstrap] CORS configured');
 
-    // Temporarily disable ValidationPipe to test raw JSON parsing
-    // app.useGlobalPipes(
-    //   new ValidationPipe({
-    //     whitelist: true,
-    //     transform: true,
-    //     forbidUnknownValues: false,
-    //     skipMissingProperties: false,
-    //     skipNullProperties: false,
-    //     skipUndefinedProperties: false,
-    //   })
-    // );
+    app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
     console.log('[Bootstrap] Global pipes configured');
 
     const port = process.env.PORT ?? 3000;

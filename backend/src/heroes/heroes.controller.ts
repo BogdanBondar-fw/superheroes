@@ -22,17 +22,17 @@ export class HeroesController {
   }
 
   @Post()
-  async create(@Body() dto: any) {
+  async create(@Body() dto: CreateHeroDto) {
     try {
       console.log('[HeroesController] POST /api/heroes called');
       console.log('[HeroesController] Raw DTO:', dto);
       console.log('[HeroesController] DTO type:', typeof dto);
-      
+
       // Simple validation manually
-      if (!dto || !dto.nickname) {
+      if (!dto?.nickname) {
         throw new Error('Nickname is required');
       }
-      
+
       const result = await this.heroesService.create(dto);
       console.log('[HeroesController] Hero created successfully:', result.id);
       return result;
@@ -40,7 +40,9 @@ export class HeroesController {
       console.error('[HeroesController] Error creating hero:', error);
       throw error;
     }
-  }  @Get()
+  }
+
+  @Get()
   async findAll(
     @Query('page') page?: string,
     @Query('pageSize') pageSize?: string,
