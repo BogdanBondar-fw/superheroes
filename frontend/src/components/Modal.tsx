@@ -25,11 +25,11 @@ export const Modal = ({ isOpen, onClose, children, backdropClosable = true }: Mo
   return (
     <div
       onClick={() => backdropClosable && onClose()}
-      className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+      className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 animate-in fade-in duration-200"
       role="dialog"
       aria-modal="true"
     >
-      <div onClick={(event) => event.stopPropagation()} className="relative">
+      <div onClick={(event) => event.stopPropagation()} className="relative animate-in zoom-in-95 duration-200">
         {children}
       </div>
     </div>

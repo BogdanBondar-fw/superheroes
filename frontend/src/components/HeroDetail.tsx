@@ -16,7 +16,7 @@ export const HeroDetail: React.FC<HeroDetailProps> = ({ hero, onClose, onEdit, o
       <button
         aria-label="Close details"
         onClick={onClose}
-        className="absolute top-3 right-3 text-white/70 hover:text-white transition"
+        className="absolute top-3 right-3 text-white/70 hover:text-white transition-all duration-200 cursor-pointer transform hover:scale-110 active:scale-95"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +102,7 @@ export const HeroDetail: React.FC<HeroDetailProps> = ({ hero, onClose, onEdit, o
           {onEdit && (
             <button
               onClick={() => onEdit(hero)}
-              className="px-4 py-2 rounded-md bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-sm font-semibold shadow-md transition"
+              className="px-4 py-2 rounded-md bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-sm font-semibold shadow-md transition-all duration-200 cursor-pointer transform hover:scale-105 active:scale-95"
             >
               Edit
             </button>
@@ -110,14 +110,14 @@ export const HeroDetail: React.FC<HeroDetailProps> = ({ hero, onClose, onEdit, o
           {onDelete && (
             <button
               onClick={() => onDelete(hero)}
-              className="px-4 py-2 rounded-md bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-600 hover:to-red-700 text-white text-sm font-semibold shadow-md transition"
+              className="px-4 py-2 rounded-md bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-600 hover:to-red-700 text-white text-sm font-semibold shadow-md transition-all duration-200 cursor-pointer transform hover:scale-105 active:scale-95"
             >
               Delete
             </button>
           )}
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-md bg-white/10 hover:bg-white/15 text-white/90 text-sm font-medium border border-white/15 transition"
+            className="px-4 py-2 rounded-md bg-white/10 hover:bg-white/15 text-white/90 text-sm font-medium border border-white/15 transition-all duration-200 cursor-pointer transform hover:scale-105 active:scale-95"
           >
             Close
           </button>

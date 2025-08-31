@@ -11,7 +11,7 @@ const FALLBACK_IMG =
 export const HeroCard = ({ id, nickname, image, onDetails }: HeroCardProps) => {
   const resolved = image && image.trim().length > 0 ? image : FALLBACK_IMG;
   return (
-    <div className="rounded-xl bg-white/6 border border-white/8 p-4 flex gap-4 shadow-lg backdrop-blur-sm">
+    <div className="rounded-xl bg-white/6 border border-white/8 p-4 flex gap-4 shadow-lg backdrop-blur-sm transform transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:shadow-xl">
       <img
         src={resolved}
         alt={`${nickname} thumbnail`}
@@ -35,7 +35,7 @@ export const HeroCard = ({ id, nickname, image, onDetails }: HeroCardProps) => {
         </div>
         <button
           onClick={() => onDetails(id)}
-          className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium py-1 px-3 rounded-md text-xs tracking-wide transition shadow-md whitespace-nowrap"
+          className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium py-1 px-3 rounded-md text-xs tracking-wide transition-all duration-200 shadow-md whitespace-nowrap cursor-pointer transform hover:scale-105 active:scale-95"
         >
           Details
         </button>

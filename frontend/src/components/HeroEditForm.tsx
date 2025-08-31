@@ -94,13 +94,13 @@ export const HeroEditForm: React.FC<Props> = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col w-full max-w-xl mx-auto p-6 rounded-xl bg-white/6 border border-white/8 shadow-lg backdrop-blur-sm"
+      className="flex flex-col w-full max-w-xl mx-auto p-6 rounded-xl bg-white/6 border border-white/8 shadow-lg backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-300"
     >
       <div className="flex justify-between pb-2">
-        <h2 className="text-xl font-semibold text-white">
+        <h2 className="text-xl font-semibold text-white animate-in fade-in duration-500 delay-100">
           {mode === 'create' ? 'Add your Hero' : 'Edit hero'}
         </h2>
-        <button type="button" onClick={() => setModalOpen(false)} className="cursor-pointer">
+        <button type="button" onClick={() => setModalOpen(false)} className="cursor-pointer transform hover:scale-110 transition-all duration-200 active:scale-95">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -114,12 +114,12 @@ export const HeroEditForm: React.FC<Props> = ({
         </button>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 animate-in slide-in-from-bottom-2 duration-300 delay-200">
         <label className="text-lg font-semibold text-white">Nickname</label>
         <input
           placeholder="Superman"
           {...register('nickname', { required: errorMessages.Nickname })}
-          className="px-3 py-2 rounded-md bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-white/60"
+          className="px-3 py-2 rounded-md bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-white/60 transition-all duration-200 focus:scale-105"
         />
         <div className="min-h-[25px]">
           {errors.nickname && (
@@ -128,12 +128,12 @@ export const HeroEditForm: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 animate-in slide-in-from-bottom-2 duration-300 delay-300">
         <label className="text-lg font-semibold text-white">Real name</label>
         <input
           placeholder="Clark Joseph Kent"
           {...register('real_name', { required: errorMessages.RealName })}
-          className="px-3 py-2 rounded-md bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-white/60"
+          className="px-3 py-2 rounded-md bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-white/60 transition-all duration-200 focus:scale-105"
         />
         <div className="min-h-[25px]">
           {errors.real_name && (
@@ -142,12 +142,12 @@ export const HeroEditForm: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 animate-in slide-in-from-bottom-2 duration-300 delay-400">
         <label className="text-lg font-semibold text-white">Origin description</label>
         <input
           placeholder="The man who can do anything"
           {...register('origin_description', { required: errorMessages.OriginDescription })}
-          className="px-3 py-2 rounded-md bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-white/60"
+          className="px-3 py-2 rounded-md bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-white/60 transition-all duration-200 focus:scale-105"
         />
         <div className="min-h-[25px]">
           {errors.origin_description && (
@@ -156,12 +156,12 @@ export const HeroEditForm: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 animate-in slide-in-from-bottom-2 duration-300 delay-500">
         <label className="text-lg font-semibold text-white">Superpowers</label>
         <input
           placeholder="Flight, super strength, x-ray vision"
           {...register('superpowers', { required: errorMessages.Superpowers })}
-          className="px-3 py-2 rounded-md bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-white/60"
+          className="px-3 py-2 rounded-md bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-white/60 transition-all duration-200 focus:scale-105"
         />
         <div className="min-h-[25px]">
           {errors.superpowers && (
@@ -170,12 +170,12 @@ export const HeroEditForm: React.FC<Props> = ({
         </div>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 animate-in slide-in-from-bottom-2 duration-300 delay-600">
         <label className="text-lg font-semibold text-white">Catch phrase</label>
         <input
           placeholder="Up, up and away!"
           {...register('catch_phrase', { required: errorMessages.CatchPhrase })}
-          className="px-3 py-2 rounded-md bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-white/60"
+          className="px-3 py-2 rounded-md bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-white/60 transition-all duration-200 focus:scale-105"
         />
         <div className="min-h-[25px]">
           {errors.catch_phrase && (
@@ -184,13 +184,15 @@ export const HeroEditForm: React.FC<Props> = ({
         </div>
       </div>
 
-      <ImgUploader ref={uploaderRef} value={images} onChange={setImages} />
+      <div className="animate-in slide-in-from-bottom-2 duration-300 delay-700">
+        <ImgUploader ref={uploaderRef} value={images} onChange={setImages} />
+      </div>
       <button
         type="submit"
         disabled={
           createMutation.isPending || updateMutation.isPending || (mode === 'edit' && !heroId)
         }
-        className="mt-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-md tracking-widest text-lg transition shadow-md"
+        className="mt-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-white font-bold py-3 rounded-md tracking-widest text-lg transition-all duration-200 shadow-md transform hover:scale-105 active:scale-95"
       >
         {mode === 'create'
           ? createMutation.isPending

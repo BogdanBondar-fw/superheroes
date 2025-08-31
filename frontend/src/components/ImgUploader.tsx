@@ -61,7 +61,7 @@ export const ImgUploader = forwardRef<ImgUploaderHandle, ImgUploaderProps>(
             type="button"
             onClick={add}
             disabled={!canAdd()}
-            className="px-4 py-2 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 disabled:opacity-40 text-white text-sm font-medium"
+            className="px-4 py-2 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 disabled:opacity-40 text-white text-sm font-medium cursor-pointer transition-all duration-200 transform hover:scale-105 active:scale-95"
           >
             Add
           </button>
@@ -70,9 +70,9 @@ export const ImgUploader = forwardRef<ImgUploaderHandle, ImgUploaderProps>(
           <p className="text-xs text-red-400">The URL must begin with http(s)://</p>
         )}
         {value.length > 0 && (
-          <div className="grid grid-cols-3 gap-3">
-            {value.map((u) => (
-              <div key={u} className="relative group">
+          <div className="grid grid-cols-3 gap-3 animate-in fade-in duration-300">
+            {value.map((u, index) => (
+              <div key={u} className="relative group animate-in slide-in-from-bottom-2 duration-300" style={{animationDelay: `${index * 50}ms`}}>
                 <img
                   src={u}
                   alt="hero"
@@ -85,7 +85,7 @@ export const ImgUploader = forwardRef<ImgUploaderHandle, ImgUploaderProps>(
                 <button
                   type="button"
                   onClick={() => remove(u)}
-                  className="absolute top-1 right-1 bg-black/60 hover:bg-black/80 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
+                  className="absolute top-1 right-1 bg-black/60 hover:bg-black/80 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer transform hover:scale-110 active:scale-95"
                   aria-label="Remove image"
                 >
                   ✕
