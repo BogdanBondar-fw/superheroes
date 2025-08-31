@@ -11,53 +11,28 @@ export class HeroesService {
     try {
       console.log('[HeroesService] create called with:', JSON.stringify(dto, null, 2));
 
-      // First try creating without images
-      const basicData = {
-        nickname: dto.nickname,
-        realName: dto.realName,
-        originDescription: dto.originDescription,
-        superpowers: dto.superpowers,
-        catchPhrase: dto.catchPhrase,
-      };
-
-      console.log('[HeroesService] creating hero with basic data:', basicData);
+      const imagesToCreate = (dto.images || [])
+        .map((imageUrl) => (imageUrl || '').trim())
+        .filter((imageUrl) => imageUrl.length > 0)
+        .map((url) => ({ url })); // Prisma syntax for nested create
 
       const result = await this.prisma.client.superhero.create({
-        data: basicData,
-        include: { images: true },
+        data: {
+          nickname: dto.nickname,
+          realName: dto.realName,
+          originDescription: dto.originDescription,
+          superpowers: dto.superpowers,
+          catchPhrase: dto.catchPhrase,
+          images: {
+            create: imagesToCreate,
+          },
+        },
+        include: {
+          images: true, // Include the created images in the response
+        },
       });
 
-      console.log('[HeroesService] hero created successfully:', result.id);
-
-      // Now add images if any
-      const images = (dto.images || [])
-        .map((imageUrl) => (imageUrl || '').trim())
-        .filter((imageUrl) => imageUrl.length > 0);
-
-      if (images.length > 0) {
-        console.log('[HeroesService] adding images:', images);
-        await this.prisma.client.image.createMany({
-          data: images.map((url) => ({
-            url,
-            heroId: result.id,
-          })),
-        });
-
-        // Refetch with images
-        const finalResult = await this.prisma.client.superhero.findUnique({
-          where: { id: result.id },
-          include: { images: true },
-        });
-
-        if (!finalResult) {
-          console.error('[HeroesService] failed to refetch hero with images');
-          return result; // fallback to result without images
-        }
-
-        console.log('[HeroesService] final result with images:', finalResult.id);
-        return finalResult;
-      }
-
+      console.log('[HeroesService] hero created successfully with images:', result.id);
       return result;
     } catch (error) {
       console.error('[HeroesService] create error:', error);
