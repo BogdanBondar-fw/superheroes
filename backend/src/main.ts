@@ -2,6 +2,7 @@ import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
+import * as express from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -16,6 +17,11 @@ async function bootstrap() {
 
     const app = await NestFactory.create(AppModule);
     console.log('[Bootstrap] NestJS app created successfully');
+
+    // Enable JSON parsing middleware BEFORE any routes
+    app.use(express.json({ limit: '10mb' }));
+    app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+    console.log('[Bootstrap] JSON parsing middleware configured');
 
     // (Removed global prefix to avoid duplicate /api/api paths – controllers already include 'api/' where needed)
 
@@ -49,7 +55,7 @@ async function bootstrap() {
     console.log('[Bootstrap] Global pipes configured');
 
     const port = process.env.PORT ?? 3000;
-    const host = '0.0.0.0'; // Bind to all interfaces for Render
+    const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost'; // 0.0.0.0 для продакшна
     console.log(`[Bootstrap] About to listen on ${host}:${port}`);
 
     console.log(`[Bootstrap] Render Environment Variables:`);

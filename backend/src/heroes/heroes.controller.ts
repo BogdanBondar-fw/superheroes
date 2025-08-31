@@ -22,17 +22,25 @@ export class HeroesController {
   }
 
   @Post()
-  async create(@Body() dto: CreateHeroDto) {
+  async create(@Body() body: Record<string, any>) {
     try {
       console.log('[HeroesController] POST /api/heroes called');
-      console.log('[HeroesController] Raw DTO:', dto);
-      console.log('[HeroesController] DTO type:', typeof dto);
-
-      // Simple validation manually
-      if (!dto?.nickname) {
-        throw new Error('Nickname is required');
-      }
-
+      console.log('[HeroesController] Raw body:', body);
+      console.log('[HeroesController] Body type:', typeof body);
+      console.log('[HeroesController] Body keys:', Object.keys(body || {}));
+      
+      // Manually create DTO from body since ValidationPipe isn't working
+      const dto: CreateHeroDto = {
+        nickname: body.nickname as string,
+        realName: body.realName as string,
+        originDescription: body.originDescription as string,
+        superpowers: body.superpowers as string,
+        catchPhrase: body.catchPhrase as string,
+        images: (body.images as string[]) || [],
+      };
+      
+      console.log('[HeroesController] Created DTO:', dto);
+      
       const result = await this.heroesService.create(dto);
       console.log('[HeroesController] Hero created successfully:', result.id);
       return result;
