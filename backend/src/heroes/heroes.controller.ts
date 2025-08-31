@@ -28,7 +28,7 @@ export class HeroesController {
       console.log('[HeroesController] Raw body:', body);
       console.log('[HeroesController] Body type:', typeof body);
       console.log('[HeroesController] Body keys:', Object.keys(body || {}));
-      
+
       // Manually create DTO from body since ValidationPipe isn't working
       const dto: CreateHeroDto = {
         nickname: body.nickname as string,
@@ -38,9 +38,9 @@ export class HeroesController {
         catchPhrase: body.catchPhrase as string,
         images: (body.images as string[]) || [],
       };
-      
+
       console.log('[HeroesController] Created DTO:', dto);
-      
+
       const result = await this.heroesService.create(dto);
       console.log('[HeroesController] Hero created successfully:', result.id);
       return result;
