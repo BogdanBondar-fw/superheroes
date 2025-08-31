@@ -7,6 +7,13 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   try {
     console.log('[Bootstrap] Starting application...');
+    console.log('[Bootstrap] Environment check:');
+    console.log(`  NODE_ENV: ${process.env.NODE_ENV}`);
+    console.log(`  PORT: ${process.env.PORT}`);
+    console.log(
+      `  DATABASE_URL: ${process.env.DATABASE_URL ? 'set (' + process.env.DATABASE_URL.substring(0, 50) + '...)' : 'not set'}`
+    );
+
     const app = await NestFactory.create(AppModule);
     console.log('[Bootstrap] NestJS app created successfully');
 
@@ -21,11 +28,12 @@ async function bootstrap() {
     });
 
     // Global error handler for better debugging
-    app.use((err: any, req: Request, res: Response) => {
+    app.use((err: any, req: Request, res: Response, next: NextFunction) => {
       console.error('[GLOBAL ERROR]:', err);
       if (!res.headersSent) {
         res.status(500).json({ statusCode: 500, message: 'Internal server error' });
       }
+      next();
     });
 
     // Simple CORS configuration for debugging

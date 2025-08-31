@@ -11,6 +11,11 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
 
     this.client = new PrismaClient({
       log: ['info', 'warn', 'error'],
+      datasources: {
+        db: {
+          url: process.env.DATABASE_URL,
+        },
+      },
     });
     console.log('[Prisma] PrismaClient created successfully');
   }
