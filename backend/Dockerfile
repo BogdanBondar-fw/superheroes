@@ -11,7 +11,7 @@ COPY prisma ./prisma
 # Install all dependencies (including dev dependencies needed for build)
 RUN npm ci && npm cache clean --force
 
-# Copy source code
+# Copy source code and scripts
 COPY . .
 
 # Build the application
