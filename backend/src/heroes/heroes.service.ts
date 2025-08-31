@@ -16,7 +16,7 @@ export class HeroesService {
         database: 'connected',
         testQuery: result,
         heroCount: heroCount,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
     } catch (error) {
       console.error('[HeroesService] Database test failed:', error);

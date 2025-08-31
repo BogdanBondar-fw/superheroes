@@ -23,8 +23,10 @@ async function bootstrap() {
     app.use((req: Request, res: Response, next: NextFunction) => {
       console.log(`[REQ] ${req.method} ${req.url}`);
       if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
-        console.log(`[REQ] Body:`, JSON.stringify(req.body, null, 2));
+        console.log(`[REQ] Raw Body:`, req.body);
+        console.log(`[REQ] Body Type:`, typeof req.body);
         console.log(`[REQ] Content-Type:`, req.headers['content-type']);
+        console.log(`[REQ] Content-Length:`, req.headers['content-length']);
       }
       next();
     });

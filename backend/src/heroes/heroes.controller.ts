@@ -14,23 +14,25 @@ export class HeroesController {
       const result = await this.heroesService.testConnection();
       console.log('[HeroesController] Test result:', result);
       return { status: 'ok', ...result };
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('[HeroesController] Test failed:', error);
-      return { status: 'error', message: error.message };
+      const message = error instanceof Error ? error.message : String(error);
+      return { status: 'error', message };
     }
   }
 
   @Post()
   async create(@Body() dto: CreateHeroDto) {
     try {
-      console.log(
-        '[HeroesController] POST /api/heroes called with body:',
-        JSON.stringify(dto, null, 2)
-      );
+      console.log('[HeroesController] POST /api/heroes called');
+      console.log('[HeroesController] Raw DTO received:', JSON.stringify(dto, null, 2));
+      console.log('[HeroesController] DTO type:', typeof dto);
+      console.log('[HeroesController] DTO keys:', Object.keys(dto || {}));
+
       const result = await this.heroesService.create(dto);
       console.log('[HeroesController] Hero created successfully:', result.id);
       return result;
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('[HeroesController] Error creating hero:', error);
       console.error(
         '[HeroesController] Error stack:',
