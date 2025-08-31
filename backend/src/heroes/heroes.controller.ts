@@ -3,7 +3,7 @@ import { HeroesService } from './heroes.service';
 import type { CreateHeroDto } from './dto/create-hero.dto';
 import type { UpdateHeroDto } from './dto/update-hero.dto';
 
-@Controller('heroes')
+@Controller('api/heroes')
 export class HeroesController {
   constructor(private readonly heroesService: HeroesService) {}
 

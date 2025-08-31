@@ -6,10 +6,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Add global prefix for all routes EXCEPT health check
-  app.setGlobalPrefix('api', {
-    exclude: ['/'], // Exclude root path for Railway health check
-  });
+  // No global prefix - let each controller define its own path
 
   const originsEnv = process.env.FRONTEND_ORIGIN;
   const explicitOrigins = originsEnv
