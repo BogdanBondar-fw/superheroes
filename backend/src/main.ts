@@ -18,7 +18,7 @@ async function bootstrap() {
   });
 
   // Global error handler for better debugging
-  app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  app.use((err: any, req: Request, res: Response) => {
     console.error('[GLOBAL ERROR]:', err);
     if (!res.headersSent) {
       res.status(500).json({ statusCode: 500, message: 'Internal server error' });

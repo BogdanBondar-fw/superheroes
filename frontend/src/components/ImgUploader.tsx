@@ -67,7 +67,7 @@ export const ImgUploader = forwardRef<ImgUploaderHandle, ImgUploaderProps>(
           </button>
         </div>
         {url && !/^https?:\/\//i.test(url.trim()) && (
-          <p className="text-xs text-red-400">URL должен начинаться с http(s)://</p>
+          <p className="text-xs text-red-400">The URL must begin with http(s)://</p>
         )}
         {value.length > 0 && (
           <div className="grid grid-cols-3 gap-3">
@@ -95,8 +95,8 @@ export const ImgUploader = forwardRef<ImgUploaderHandle, ImgUploaderProps>(
           </div>
         )}
         <p className="text-xs text-white/50">
-          Можно до {max}. Введённая но не добавленная ссылка будет автоматически добавлена при
-          сохранении.
+          Up to {max}. A link that has been entered but not added will be automatically added when
+          saving.
         </p>
       </div>
     );
