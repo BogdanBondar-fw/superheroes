@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Seamless tiling background (tile size 1800x1200 to avoid seams) -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1200" viewBox="0 0 1800 1200" role="img" aria-label="Multiple MARVEL DC background pattern">
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff1d1d"/>
+      <stop offset="100%" stop-color="#1d32ff"/>
+    </linearGradient>
+    <!-- Large tile with several big labels -->
+  <pattern id="tile" patternUnits="userSpaceOnUse" width="1800" height="1200">
+      <!-- Base (same color as page); extra padding around edges prevents seam lines -->
+      <rect width="1800" height="1200" fill="#070707"/>
+      <!-- Top-left label (inset) -->
+      <g transform="translate(500 340) rotate(-18)">
+        <text text-anchor="middle" dominant-baseline="middle"
+              font-family="Segoe UI, Arial, Helvetica, sans-serif"
+              font-weight="900" font-size="300" letter-spacing="14"
+              fill="url(#grad)" fill-opacity="0.12">MARVEL DC</text>
+      </g>
+      <!-- Top-right label -->
+      <g transform="translate(1300 340) rotate(-16)">
+        <text text-anchor="middle" dominant-baseline="middle"
+              font-family="Segoe UI, Arial, Helvetica, sans-serif"
+              font-weight="900" font-size="270" letter-spacing="13"
+              fill="url(#grad)" fill-opacity="0.10">MARVEL DC</text>
+      </g>
+      <!-- Bottom-left label -->
+      <g transform="translate(500 940) rotate(-17)">
+        <text text-anchor="middle" dominant-baseline="middle"
+              font-family="Segoe UI, Arial, Helvetica, sans-serif"
+              font-weight="900" font-size="290" letter-spacing="13"
+              fill="url(#grad)" fill-opacity="0.11">MARVEL DC</text>
+      </g>
+      <!-- Bottom-right label -->
+      <g transform="translate(1300 900) rotate(-19)">
+        <text text-anchor="middle" dominant-baseline="middle"
+              font-family="Segoe UI, Arial, Helvetica, sans-serif"
+              font-weight="900" font-size="320" letter-spacing="15"
+              fill="url(#grad)" fill-opacity="0.13">MARVEL DC</text>
+      </g>
+    </pattern>
+  </defs>
+  <!-- Single tile (root svg size == pattern size ensures perfect repetition) -->
+  <rect width="1800" height="1200" fill="#070707"/>
+  <rect width="1800" height="1200" fill="url(#tile)"/>
+</svg>

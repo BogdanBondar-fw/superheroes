@@ -1,0 +1,9 @@
+body {
+  background-image: url('/src/assets/bg-marveldc.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #070707;
+  color: #fff;
+  min-height: 100vh;
+}
