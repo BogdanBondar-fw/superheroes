@@ -5,6 +5,10 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Add global prefix for all routes
+  app.setGlobalPrefix('api');
+
   const originsEnv = process.env.FRONTEND_ORIGIN;
   const explicitOrigins = originsEnv
     ? originsEnv
@@ -39,9 +43,14 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({ whitelist: true, transform: true, forbidUnknownValues: false })
   );
+
   const port = process.env.PORT ?? 3000;
   const host = '0.0.0.0'; // Bind to all interfaces
+  console.log(`[Bootstrap] About to listen on ${host}:${port}`);
   await app.listen(port, host);
-  console.log(`[Nest] Application is running on ${host}:${port}`);
+  console.log(`[Bootstrap] Successfully listening on ${host}:${port}`);
+  console.log(`[Bootstrap] Available routes:`);
+  console.log(`  GET  ${host}:${port}/api/health`);
+  console.log(`  GET  ${host}:${port}/api/heroes`);
 }
 void bootstrap();
