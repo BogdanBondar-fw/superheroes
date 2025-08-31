@@ -40,7 +40,8 @@ async function bootstrap() {
     new ValidationPipe({ whitelist: true, transform: true, forbidUnknownValues: false })
   );
   const port = process.env.PORT ?? 3000;
-  await app.listen(port);
-  console.log(`[Nest] Application is running on port ${port}`);
+  const host = '0.0.0.0'; // Bind to all interfaces
+  await app.listen(port, host);
+  console.log(`[Nest] Application is running on ${host}:${port}`);
 }
 void bootstrap();
