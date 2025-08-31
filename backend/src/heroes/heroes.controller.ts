@@ -77,8 +77,32 @@ export class HeroesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateHeroDto) {
-    return this.heroesService.update(id, dto);
+  async update(@Param('id') id: string, @Body() body: Record<string, any>) {
+    try {
+      console.log('[HeroesController] PATCH /api/heroes/:id called with id:', id);
+      console.log('[HeroesController] Raw body:', body);
+      console.log('[HeroesController] Body type:', typeof body);
+      console.log('[HeroesController] Body keys:', Object.keys(body || {}));
+
+      // Manually create DTO from body since ValidationPipe isn't working
+      const dto: UpdateHeroDto = {
+        nickname: body.nickname as string,
+        realName: body.realName as string,
+        originDescription: body.originDescription as string,
+        superpowers: body.superpowers as string,
+        catchPhrase: body.catchPhrase as string,
+        images: (body.images as string[]) || undefined,
+      };
+
+      console.log('[HeroesController] Created Update DTO:', dto);
+
+      const result = await this.heroesService.update(id, dto);
+      console.log('[HeroesController] Hero updated successfully:', result.id);
+      return result;
+    } catch (error: unknown) {
+      console.error('[HeroesController] Error updating hero:', error);
+      throw error;
+    }
   }
 
   @Delete(':id')
