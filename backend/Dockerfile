@@ -1,15 +1,12 @@
 FROM node:20-alpine
 WORKDIR /app
 
-# Install dependencies first (better layer caching)
+# Copy package manifests and prisma schema first (postinstall runs prisma generate)
 COPY package*.json ./
+COPY prisma ./prisma
 RUN npm ci
 
-# Prisma client generation (needs schema)
-COPY prisma ./prisma
-RUN npx prisma generate
-
-# Copy source
+# Copy the rest of the source
 COPY . .
 
 # Build
