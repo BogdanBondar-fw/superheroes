@@ -5,7 +5,33 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+
+  // --- CORS --------------------------------------------------------------
+  // Some hosting platforms (or intermediaries returning error pages) may omit
+  // CORS headers on failure responses causing the frontend to see
+  // "No 'Access-Control-Allow-Origin'". We configure CORS explicitly.
+  // FRONTEND_ORIGIN may contain a single origin or a comma-separated list.
+  const originsEnv = process.env.FRONTEND_ORIGIN;
+  const explicitOrigins = originsEnv
+    ? originsEnv
+        .split(',')
+        .map((o) => o.trim())
+        .filter(Boolean)
+    : [
+        'http://localhost:5173', // Vite dev
+        'http://localhost:3000',
+      ];
+  app.enableCors({
+    origin: (origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) => {
+      if (!origin || explicitOrigins.includes(origin)) {
+        cb(null, true);
+        return;
+      }
+      cb(null, false);
+    },
+    methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type,Authorization',
+  });
   app.useGlobalPipes(
     new ValidationPipe({ whitelist: true, transform: true, forbidUnknownValues: false })
   );
