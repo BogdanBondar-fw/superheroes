@@ -17,6 +17,14 @@ async function bootstrap() {
     next();
   });
 
+  // Global error handler for better debugging
+  app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    console.error('[GLOBAL ERROR]:', err);
+    if (!res.headersSent) {
+      res.status(500).json({ statusCode: 500, message: 'Internal server error' });
+    }
+  });
+
   const originsEnv = process.env.FRONTEND_ORIGIN;
   const explicitOrigins = originsEnv
     ? originsEnv

@@ -8,23 +8,33 @@ export class HeroesService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(dto: CreateHeroDto) {
-    const images = (dto.images || [])
-      .map((imageUrl) => (imageUrl || '').trim())
-      .filter((imageUrl) => imageUrl.length > 0);
-    if (process.env.NODE_ENV !== 'test') {
-      console.log('[HeroesService] create images count:', images.length);
+    try {
+      console.log('[HeroesService] create called with:', JSON.stringify(dto, null, 2));
+      const images = (dto.images || [])
+        .map((imageUrl) => (imageUrl || '').trim())
+        .filter((imageUrl) => imageUrl.length > 0);
+      if (process.env.NODE_ENV !== 'test') {
+        console.log('[HeroesService] create images count:', images.length);
+      }
+
+      const result = await this.prisma.client.superhero.create({
+        data: {
+          nickname: dto.nickname,
+          realName: dto.realName,
+          originDescription: dto.originDescription,
+          superpowers: dto.superpowers,
+          catchPhrase: dto.catchPhrase,
+          images: images.length ? { create: images.map((url) => ({ url })) } : undefined,
+        },
+        include: { images: true },
+      });
+
+      console.log('[HeroesService] create success:', result.id);
+      return result;
+    } catch (error) {
+      console.error('[HeroesService] create error:', error);
+      throw error;
     }
-    return await this.prisma.client.superhero.create({
-      data: {
-        nickname: dto.nickname,
-        realName: dto.realName,
-        originDescription: dto.originDescription,
-        superpowers: dto.superpowers,
-        catchPhrase: dto.catchPhrase,
-        images: images.length ? { create: images.map((url) => ({ url })) } : undefined,
-      },
-      include: { images: true },
-    });
   }
 
   async findAll(page = 1, pageSize = 5, searchQuery?: string) {
