@@ -1,12 +1,21 @@
 import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { Request, Response, NextFunction } from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // No global prefix - let each controller define its own path
+
+  // Log all incoming requests for debugging
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    console.log(
+      `[REQUEST] ${req.method} ${req.url} from ${req.ip || req.socket?.remoteAddress || 'unknown'}`
+    );
+    next();
+  });
 
   const originsEnv = process.env.FRONTEND_ORIGIN;
   const explicitOrigins = originsEnv

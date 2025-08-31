@@ -13,7 +13,6 @@ COPY . .
 RUN npm run build
 
 ENV NODE_ENV=production
-EXPOSE 3000
 
-# Use start script (plain start or start:migrate if you want migrations)
-CMD ["node","dist/main.js"]
+# Railway assigns dynamic port via PORT env var, don't hardcode expose
+CMD ["npm", "run", "start:prod"]
