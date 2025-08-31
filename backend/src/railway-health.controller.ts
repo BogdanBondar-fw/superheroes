@@ -1,35 +1,24 @@
-import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
-import type { Response } from 'express';
+import { Controller, Get } from '@nestjs/common';
 
 @Controller()
 export class RailwayHealthController {
   @Get('health')
-  railwayHealth(@Res() res: Response) {
-    return res.status(HttpStatus.OK).json({
-      status: 'ok',
-      timestamp: new Date().toISOString(),
-      service: 'superheroes-backend',
-    });
+  railwayHealth() {
+    return { status: 'ok' };
   }
 
   @Get('healthz')
-  healthz(@Res() res: Response) {
-    return res.status(HttpStatus.OK).json({
-      status: 'ok',
-      timestamp: new Date().toISOString(),
-    });
+  healthz() {
+    return 'OK';
   }
 
   @Get('ready')
-  ready(@Res() res: Response) {
-    return res.status(HttpStatus.OK).json({
-      status: 'ready',
-      timestamp: new Date().toISOString(),
-    });
+  ready() {
+    return 'READY';
   }
 
   @Get()
-  root(@Res() res: Response) {
-    return res.status(HttpStatus.OK).send('Hello World!');
+  root() {
+    return 'Hello World!';
   }
 }

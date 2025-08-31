@@ -1,0 +1,8 @@
+# Render Deployment Configuration
+buildCommand: npm install && npm run build
+startCommand: npm run start:prod
+
+# Environment Variables to set in Render dashboard:
+# DATABASE_URL=your_neon_postgresql_url
+# FRONTEND_ORIGIN=https://superher0s.netlify.app
+# NODE_ENV=production
