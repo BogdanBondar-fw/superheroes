@@ -22,27 +22,25 @@ export class HeroesController {
   }
 
   @Post()
-  async create(@Body() dto: CreateHeroDto) {
+  async create(@Body() dto: any) {
     try {
       console.log('[HeroesController] POST /api/heroes called');
-      console.log('[HeroesController] Raw DTO received:', JSON.stringify(dto, null, 2));
+      console.log('[HeroesController] Raw DTO:', dto);
       console.log('[HeroesController] DTO type:', typeof dto);
-      console.log('[HeroesController] DTO keys:', Object.keys(dto || {}));
-
+      
+      // Simple validation manually
+      if (!dto || !dto.nickname) {
+        throw new Error('Nickname is required');
+      }
+      
       const result = await this.heroesService.create(dto);
       console.log('[HeroesController] Hero created successfully:', result.id);
       return result;
     } catch (error: unknown) {
       console.error('[HeroesController] Error creating hero:', error);
-      console.error(
-        '[HeroesController] Error stack:',
-        error instanceof Error ? error.stack : 'No stack trace'
-      );
       throw error;
     }
-  }
-
-  @Get()
+  }  @Get()
   async findAll(
     @Query('page') page?: string,
     @Query('pageSize') pageSize?: string,

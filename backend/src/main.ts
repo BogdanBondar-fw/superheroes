@@ -22,9 +22,11 @@ async function bootstrap() {
     // Log all incoming requests for debugging (very lightweight)
     app.use((req: Request, res: Response, next: NextFunction) => {
       console.log(`[REQ] ${req.method} ${req.url}`);
+      console.log(`[REQ] Headers:`, JSON.stringify(req.headers, null, 2));
       if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
         console.log(`[REQ] Raw Body:`, req.body);
         console.log(`[REQ] Body Type:`, typeof req.body);
+        console.log(`[REQ] Body Keys:`, req.body ? Object.keys(req.body as Record<string, unknown>) : []);
         console.log(`[REQ] Content-Type:`, req.headers['content-type']);
         console.log(`[REQ] Content-Length:`, req.headers['content-length']);
       }
@@ -40,16 +42,17 @@ async function bootstrap() {
     });
     console.log('[Bootstrap] CORS configured');
 
-    app.useGlobalPipes(
-      new ValidationPipe({
-        whitelist: true,
-        transform: true,
-        forbidUnknownValues: false,
-        skipMissingProperties: false,
-        skipNullProperties: false,
-        skipUndefinedProperties: false,
-      })
-    );
+    // Temporarily disable ValidationPipe to test raw JSON parsing
+    // app.useGlobalPipes(
+    //   new ValidationPipe({
+    //     whitelist: true,
+    //     transform: true,
+    //     forbidUnknownValues: false,
+    //     skipMissingProperties: false,
+    //     skipNullProperties: false,
+    //     skipUndefinedProperties: false,
+    //   })
+    // );
     console.log('[Bootstrap] Global pipes configured');
 
     const port = process.env.PORT ?? 3000;
