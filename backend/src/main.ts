@@ -2,7 +2,6 @@ import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import * as express from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -17,11 +16,6 @@ async function bootstrap() {
 
     const app = await NestFactory.create(AppModule);
     console.log('[Bootstrap] NestJS app created successfully');
-
-    // Explicitly enable JSON parsing
-    app.use(express.json({ limit: '10mb' }));
-    app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-    console.log('[Bootstrap] JSON parsing configured');
 
     // (Removed global prefix to avoid duplicate /api/api paths – controllers already include 'api/' where needed)
 

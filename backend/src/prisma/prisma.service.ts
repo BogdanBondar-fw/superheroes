@@ -13,19 +13,10 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
       throw new Error('DATABASE_URL is not set');
     }
 
-    const url = new URL(process.env.DATABASE_URL);
-    url.searchParams.set('connect_timeout', '30');
-    url.searchParams.set('pool_timeout', '30');
-
     this.client = new PrismaClient({
       log: ['info', 'warn', 'error'],
-      datasources: {
-        db: {
-          url: url.toString(),
-        },
-      },
     });
-    console.log('[Prisma] PrismaClient created with extended timeouts');
+    console.log('[Prisma] PrismaClient created successfully');
   }
 
   async onModuleInit(): Promise<void> {

@@ -7,6 +7,19 @@ import type { UpdateHeroDto } from './dto/update-hero.dto';
 export class HeroesController {
   constructor(private readonly heroesService: HeroesService) {}
 
+  @Get('test')
+  async test() {
+    try {
+      console.log('[HeroesController] Test endpoint called');
+      const result = await this.heroesService.testConnection();
+      console.log('[HeroesController] Test result:', result);
+      return { status: 'ok', ...result };
+    } catch (error) {
+      console.error('[HeroesController] Test failed:', error);
+      return { status: 'error', message: error.message };
+    }
+  }
+
   @Post()
   async create(@Body() dto: CreateHeroDto) {
     try {

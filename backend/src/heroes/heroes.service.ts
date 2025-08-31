@@ -7,6 +7,23 @@ import type { UpdateHeroDto } from './dto/update-hero.dto';
 export class HeroesService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async testConnection() {
+    try {
+      // Простой тест подключения к базе
+      const result = await this.prisma.client.$executeRaw`SELECT 1 as test`;
+      const heroCount = await this.prisma.client.superhero.count();
+      return {
+        database: 'connected',
+        testQuery: result,
+        heroCount: heroCount,
+        timestamp: new Date().toISOString()
+      };
+    } catch (error) {
+      console.error('[HeroesService] Database test failed:', error);
+      throw error;
+    }
+  }
+
   async create(dto: CreateHeroDto) {
     try {
       console.log('[HeroesService] create called with:', JSON.stringify(dto, null, 2));
