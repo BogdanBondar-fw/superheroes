@@ -25,48 +25,24 @@ async function bootstrap() {
     }
   });
 
-  const originsEnv = process.env.FRONTEND_ORIGIN;
-  const explicitOrigins = originsEnv
-    ? originsEnv
-        .split(',')
-        .map((o) => o.trim())
-        .filter(Boolean)
-    : [];
-
-  app.enableCors(
-    explicitOrigins.length
-      ? {
-          origin: (
-            origin: string | undefined,
-            cb: (err: Error | null, allow?: boolean) => void
-          ) => {
-            if (!origin || explicitOrigins.includes(origin)) {
-              cb(null, true);
-              return;
-            }
-            cb(null, false);
-          },
-          methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
-          allowedHeaders: 'Content-Type,Authorization',
-        }
-      : {
-          // Fallback: allow all origins if FRONTEND_ORIGIN not configured.
-          origin: true,
-          methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
-          allowedHeaders: 'Content-Type,Authorization',
-        }
-  );
+  // Simple CORS configuration for debugging
+  app.enableCors({
+    origin: ['https://superher0s.netlify.app', 'http://localhost:5173', 'http://localhost:3000'],
+    methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type,Authorization',
+    credentials: true,
+  });
   app.useGlobalPipes(
     new ValidationPipe({ whitelist: true, transform: true, forbidUnknownValues: false })
   );
 
   const port = process.env.PORT ?? 3000;
-  const host = '0.0.0.0'; // Bind to all interfaces for Railway
+  const host = '0.0.0.0'; // Bind to all interfaces for Render
   console.log(`[Bootstrap] About to listen on ${host}:${port}`);
-  console.log(`[Bootstrap] Railway Environment Variables:`);
+  console.log(`[Bootstrap] Render Environment Variables:`);
   console.log(`  PORT: ${process.env.PORT}`);
-  console.log(`  RAILWAY_DEPLOYMENT_ID: ${process.env.RAILWAY_DEPLOYMENT_ID || 'not set'}`);
-  console.log(`  RAILWAY_ENVIRONMENT: ${process.env.RAILWAY_ENVIRONMENT || 'not set'}`);
+  console.log(`  RENDER_SERVICE_ID: ${process.env.RENDER_SERVICE_ID || 'not set'}`);
+  console.log(`  RENDER_SERVICE_NAME: ${process.env.RENDER_SERVICE_NAME || 'not set'}`);
   console.log(`  NODE_ENV: ${process.env.NODE_ENV}`);
 
   await app.listen(port, host);
@@ -81,6 +57,6 @@ async function bootstrap() {
   console.log(`[Bootstrap] Environment info:`);
   console.log(`  NODE_ENV: ${process.env.NODE_ENV}`);
   console.log(`  PORT: ${process.env.PORT}`);
-  console.log(`  RAILWAY_DEPLOYMENT_ID: ${process.env.RAILWAY_DEPLOYMENT_ID || 'not set'}`);
+  console.log(`  RENDER_SERVICE_ID: ${process.env.RENDER_SERVICE_ID || 'not set'}`);
 }
 void bootstrap();
