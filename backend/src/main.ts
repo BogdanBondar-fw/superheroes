@@ -63,7 +63,7 @@ async function bootstrap() {
       `http://localhost:${port}/api/health`,
       `http://localhost:${port}/api/heroes?page=1`,
     ];
-    
+
     testEndpoints.forEach((endpoint) => {
       fetch(endpoint)
         .then((response) => {
@@ -79,7 +79,7 @@ async function bootstrap() {
         });
     });
   }, 2000);
-  
+
   // Log environment info
   console.log(`[Bootstrap] Environment info:`);
   console.log(`  NODE_ENV: ${process.env.NODE_ENV}`);
