@@ -1,4 +1,4 @@
-const BASE_URL = 'superheroes-production-17af.up.railway.app';
+const BASE_URL = 'https://superheroes-production-17af.up.railway.app';
 
 let baseUrlLogged = false;
 
