@@ -107,7 +107,6 @@ export const MainPage = () => {
         </main>
       </div>
 
-      {/* Create Hero Modal */}
       <Modal isOpen={isCreateModalOpen} onClose={closeCreateModal}>
         <HeroEditForm
           setModalOpen={closeCreateModal}
