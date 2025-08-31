@@ -24,7 +24,12 @@ const schema = z.object({
   catch_phrase: z.string().min(2, errorMessages.CatchPhrase),
 });
 
-export const HeroEditForm: React.FC<Props> = ({ setModalOpen, mode = 'create', heroId, initialValues }) => {
+export const HeroEditForm: React.FC<Props> = ({
+  setModalOpen,
+  mode = 'create',
+  heroId,
+  initialValues,
+}) => {
   const createMutation = useCreateHeroOptimistic();
   const updateMutation = useUpdateHero(heroId || '');
   const {
@@ -46,7 +51,10 @@ export const HeroEditForm: React.FC<Props> = ({ setModalOpen, mode = 'create', h
     },
   });
   const images = (watch('images') as string[] | undefined) || [];
-  const setImages = (imageUrls: string[]) => setValue('images', imageUrls as unknown as CreateSuperheroRequest['images'], { shouldDirty: true });
+  const setImages = (imageUrls: string[]) =>
+    setValue('images', imageUrls as unknown as CreateSuperheroRequest['images'], {
+      shouldDirty: true,
+    });
   const uploaderRef = useRef<ImgUploaderHandle | null>(null);
 
   const onSubmit: SubmitHandler<CreateSuperheroRequest> = async (data) => {
@@ -89,7 +97,9 @@ export const HeroEditForm: React.FC<Props> = ({ setModalOpen, mode = 'create', h
       className="flex flex-col w-full max-w-xl mx-auto p-6 rounded-xl bg-white/6 border border-white/8 shadow-lg backdrop-blur-sm"
     >
       <div className="flex justify-between pb-2">
-  <h2 className="text-xl font-semibold text-white">{mode === 'create' ? 'Add your Hero' : 'Edit hero'}</h2>
+        <h2 className="text-xl font-semibold text-white">
+          {mode === 'create' ? 'Add your Hero' : 'Edit hero'}
+        </h2>
         <button type="button" onClick={() => setModalOpen(false)} className="cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -174,21 +184,33 @@ export const HeroEditForm: React.FC<Props> = ({ setModalOpen, mode = 'create', h
         </div>
       </div>
 
-  <ImgUploader ref={uploaderRef} value={images} onChange={setImages} />
+      <ImgUploader ref={uploaderRef} value={images} onChange={setImages} />
       <button
         type="submit"
-        disabled={createMutation.isPending || updateMutation.isPending || (mode === 'edit' && !heroId)}
+        disabled={
+          createMutation.isPending || updateMutation.isPending || (mode === 'edit' && !heroId)
+        }
         className="mt-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-md tracking-widest text-lg transition shadow-md"
       >
         {mode === 'create'
-          ? (createMutation.isPending ? 'Creating...' : 'Create hero')
-          : (updateMutation.isPending ? 'Saving...' : (!heroId ? 'No hero id' : 'Save changes'))}
+          ? createMutation.isPending
+            ? 'Creating...'
+            : 'Create hero'
+          : updateMutation.isPending
+            ? 'Saving...'
+            : !heroId
+              ? 'No hero id'
+              : 'Save changes'}
       </button>
       {createMutation.isError && (
-        <p className="text-red-400 text-xs mt-2">Create failed: {(createMutation.error as Error)?.message}</p>
+        <p className="text-red-400 text-xs mt-2">
+          Create failed: {(createMutation.error as Error)?.message}
+        </p>
       )}
       {updateMutation.isError && (
-        <p className="text-red-400 text-xs mt-2">Update failed: {(updateMutation.error as Error)?.message}</p>
+        <p className="text-red-400 text-xs mt-2">
+          Update failed: {(updateMutation.error as Error)?.message}
+        </p>
       )}
     </form>
   );

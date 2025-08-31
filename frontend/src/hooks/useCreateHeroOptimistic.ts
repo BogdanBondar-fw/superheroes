@@ -49,13 +49,16 @@ export function useCreateHeroOptimistic(onCreated?: (hero: Superhero) => void) {
     },
     onSuccess: (createdHero, _variables, context) => {
       if (context?.pageKey) {
-        queryClient.setQueryData(context.pageKey, (old: PaginationResponse<Superhero> | undefined) => {
-          if (!old) return old;
-          return {
-            ...old,
-            data: old.data.map((h: Superhero) => h.id === context.tempId ? createdHero : h),
-          } as PaginationResponse<Superhero>;
-        });
+        queryClient.setQueryData(
+          context.pageKey,
+          (old: PaginationResponse<Superhero> | undefined) => {
+            if (!old) return old;
+            return {
+              ...old,
+              data: old.data.map((h: Superhero) => (h.id === context.tempId ? createdHero : h)),
+            } as PaginationResponse<Superhero>;
+          }
+        );
       }
       if (onCreated) onCreated(createdHero);
     },

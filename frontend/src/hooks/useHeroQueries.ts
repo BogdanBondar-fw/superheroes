@@ -1,5 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { listHeroes, getHero, createHero, updateHero, deleteHero, type CreateHeroDtoUI, type UpdateHeroDtoUI } from '../api/heroes';
+import {
+  listHeroes,
+  getHero,
+  createHero,
+  updateHero,
+  deleteHero,
+  type CreateHeroDtoUI,
+  type UpdateHeroDtoUI,
+} from '../api/heroes';
 import { QUERY_KEYS } from '../utils/queryKeys';
 
 export function useHeroes(page: number, searchQuery: string | undefined) {
@@ -23,7 +31,7 @@ export function useCreateHero() {
   return useMutation({
     mutationFn: (dto: CreateHeroDtoUI) => createHero(dto),
     onSuccess: () => {
-  void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.heroesRoot });
+      void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.heroesRoot });
     },
   });
 }
@@ -33,7 +41,7 @@ export function useUpdateHero(id: string) {
   return useMutation({
     mutationFn: (dto: UpdateHeroDtoUI) => updateHero(id, dto),
     onSuccess: () => {
-  void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.heroesRoot });
+      void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.heroesRoot });
     },
   });
 }
@@ -43,7 +51,7 @@ export function useDeleteHero() {
   return useMutation({
     mutationFn: (id: string) => deleteHero(id),
     onSuccess: () => {
-  void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.heroesRoot });
+      void queryClient.invalidateQueries({ queryKey: QUERY_KEYS.heroesRoot });
     },
   });
 }

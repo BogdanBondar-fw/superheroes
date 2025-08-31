@@ -8,9 +8,12 @@ type ModalProps = {
 };
 
 export const Modal = ({ isOpen, onClose, children, backdropClosable = true }: ModalProps) => {
-  const handleKey = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Escape') onClose();
-  }, [onClose]);
+  const handleKey = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    },
+    [onClose]
+  );
 
   useEffect(() => {
     if (!isOpen) return;
@@ -26,10 +29,7 @@ export const Modal = ({ isOpen, onClose, children, backdropClosable = true }: Mo
       role="dialog"
       aria-modal="true"
     >
-      <div
-  onClick={(event) => event.stopPropagation()}
-        className="relative"
-      >
+      <div onClick={(event) => event.stopPropagation()} className="relative">
         {children}
       </div>
     </div>

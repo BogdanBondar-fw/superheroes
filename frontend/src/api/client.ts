@@ -14,7 +14,9 @@ export async function fetchJSON<T>(path: string, options?: RequestInit): Promise
       ...options,
     });
   } catch (networkErr) {
-    throw new Error('NETWORK_ERROR: ' + (networkErr instanceof Error ? networkErr.message : String(networkErr)));
+    throw new Error(
+      'NETWORK_ERROR: ' + (networkErr instanceof Error ? networkErr.message : String(networkErr))
+    );
   }
   if (!response.ok) {
     const text = await response.text().catch(() => '');
@@ -23,7 +25,9 @@ export async function fetchJSON<T>(path: string, options?: RequestInit): Promise
   try {
     return (await response.json()) as T;
   } catch (parseErr) {
-    throw new Error('PARSE_ERROR: ' + (parseErr instanceof Error ? parseErr.message : String(parseErr)));
+    throw new Error(
+      'PARSE_ERROR: ' + (parseErr instanceof Error ? parseErr.message : String(parseErr))
+    );
   }
 }
 

@@ -20,8 +20,8 @@ export const MainPage = () => {
     openDetails,
     closeDetails,
     startEditHero,
-  requestDeleteHero,
-  createHeroMutation,
+    requestDeleteHero,
+    createHeroMutation,
     setSearch,
     setPage,
   } = useHeroesPageController();
@@ -30,13 +30,18 @@ export const MainPage = () => {
     <div className="min-h-screen p-6">
       <div className="max-w-4xl mx-auto">
         <header className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">Superhero DB</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+            Superhero DB
+          </h1>
           <div className="flex items-center gap-3">
             <input
               aria-label="search heroes"
               placeholder="Search heroes..."
               value={search}
-              onChange={(event) => { setPage(1); setSearch(event.target.value); }}
+              onChange={(event) => {
+                setPage(1);
+                setSearch(event.target.value);
+              }}
               className="hidden sm:inline-block px-3 py-2 rounded-md bg-white/10 placeholder:text-white/60 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             />
             <button
@@ -50,25 +55,34 @@ export const MainPage = () => {
 
         <main>
           {heroesQuery.isLoading && <div className="text-white/60">Loading heroes...</div>}
-          {heroesQuery.isError && (() => {
-            const message = (heroesQuery.error as Error)?.message || '';
-            const isOffline = message.startsWith('NETWORK_ERROR');
-            return (
-              <div className="text-red-400 text-sm flex flex-col gap-1">
-                <span>{isOffline ? 'API offline (backend недоступен).' : 'Failed to load heroes.'}</span>
-                <span className="text-white/50 text-xs break-all">{message}</span>
-                <button onClick={() => heroesQuery.refetch()} className="underline self-start">Retry</button>
-              </div>
-            );
-          })()}
+          {heroesQuery.isError &&
+            (() => {
+              const message = (heroesQuery.error as Error)?.message || '';
+              const isOffline = message.startsWith('NETWORK_ERROR');
+              return (
+                <div className="text-red-400 text-sm flex flex-col gap-1">
+                  <span>
+                    {isOffline ? 'API offline (backend недоступен).' : 'Failed to load heroes.'}
+                  </span>
+                  <span className="text-white/50 text-xs break-all">{message}</span>
+                  <button onClick={() => heroesQuery.refetch()} className="underline self-start">
+                    Retry
+                  </button>
+                </div>
+              );
+            })()}
           {!heroesQuery.isLoading && heroesQuery.data && heroesQuery.data.data.length === 0 ? (
             <div className="rounded-xl bg-white/6 border border-white/8 p-6 flex items-center justify-between gap-4 shadow-lg backdrop-blur-sm">
               <div>
                 <h2 className="text-lg font-semibold text-white">No heroes yet</h2>
-                <p className="text-sm text-white/70">Create a hero to get started — they'll appear here as cards.</p>
+                <p className="text-sm text-white/70">
+                  Create a hero to get started — they'll appear here as cards.
+                </p>
               </div>
               <div>
-                <span className="inline-block bg-green-400 text-black px-3 py-1 rounded-full text-sm font-medium">Empty</span>
+                <span className="inline-block bg-green-400 text-black px-3 py-1 rounded-full text-sm font-medium">
+                  Empty
+                </span>
               </div>
             </div>
           ) : (
@@ -112,17 +126,23 @@ export const MainPage = () => {
           setModalOpen={closeCreateModal}
           mode={heroForEdit ? 'edit' : 'create'}
           heroId={heroForEdit?.id}
-          initialValues={heroForEdit ? {
-            nickname: heroForEdit.nickname,
-            real_name: heroForEdit.real_name,
-            origin_description: heroForEdit.origin_description,
-            superpowers: heroForEdit.superpowers,
-            catch_phrase: heroForEdit.catch_phrase,
-            images: heroForEdit.images,
-          } : undefined}
+          initialValues={
+            heroForEdit
+              ? {
+                  nickname: heroForEdit.nickname,
+                  real_name: heroForEdit.real_name,
+                  origin_description: heroForEdit.origin_description,
+                  superpowers: heroForEdit.superpowers,
+                  catch_phrase: heroForEdit.catch_phrase,
+                  images: heroForEdit.images,
+                }
+              : undefined
+          }
         />
         {createHeroMutation.isError && (
-          <p className="text-red-400 text-xs mt-2">Create failed: {(createHeroMutation.error as Error)?.message}</p>
+          <p className="text-red-400 text-xs mt-2">
+            Create failed: {(createHeroMutation.error as Error)?.message}
+          </p>
         )}
       </Modal>
 

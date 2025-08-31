@@ -5,7 +5,8 @@ type HeroCardProps = {
   onDetails: (id: string) => void;
 };
 
-const FALLBACK_IMG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" fill="none"><rect width="160" height="160" rx="16" fill="%23222"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23aaa" font-family="sans-serif" font-size="14">No Image</text></svg>';
+const FALLBACK_IMG =
+  'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" fill="none"><rect width="160" height="160" rx="16" fill="%23222"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23aaa" font-family="sans-serif" font-size="14">No Image</text></svg>';
 
 export const HeroCard = ({ id, nickname, image, onDetails }: HeroCardProps) => {
   const resolved = image && image.trim().length > 0 ? image : FALLBACK_IMG;
@@ -28,7 +29,9 @@ export const HeroCard = ({ id, nickname, image, onDetails }: HeroCardProps) => {
       />
       <div className="flex-1 flex items-center justify-between gap-3 min-w-0">
         <div className="flex items-center gap-2 flex-1 min-w-0">
-          <h2 className="text-base font-semibold text-white line-clamp-1 flex-1 min-w-0">{nickname}</h2>
+          <h2 className="text-base font-semibold text-white line-clamp-1 flex-1 min-w-0">
+            {nickname}
+          </h2>
         </div>
         <button
           onClick={() => onDetails(id)}

@@ -47,8 +47,8 @@ function createPrismaMock() {
             }
           }
           return Promise.resolve(include?.images ? heroWithImages(hero) : hero);
-  },
-  count: ({ where }: { where?: { nickname: { contains: string } } }) => {
+        },
+        count: ({ where }: { where?: { nickname: { contains: string } } }) => {
           if (!where) return Promise.resolve(heroes.length);
           const c = heroes.filter((h) =>
             h.nickname.toLowerCase().includes(where.nickname.contains.toLowerCase())
@@ -119,8 +119,8 @@ function createPrismaMock() {
             }
           }
           return Promise.resolve(include?.images ? heroWithImages(hero) : hero);
-  },
-  delete: ({ where }: { where: { id: string } }) => {
+        },
+        delete: ({ where }: { where: { id: string } }) => {
           const idx = heroes.findIndex((h) => h.id === where.id);
           if (idx === -1) throw new Error('Not found');
           const removed = heroes.splice(idx, 1)[0];

@@ -32,25 +32,28 @@ export function useHeroesPageController() {
     setIsCreateModalOpen(true);
   }, []);
 
-  const requestDeleteHero = useCallback((hero: Superhero) => {
-    if (confirm(`Delete hero "${hero.nickname}"?`)) {
-      deleteHeroMutation.mutate(hero.id, { onSuccess: () => setSelectedHeroId(null) });
-    }
-  }, [deleteHeroMutation]);
+  const requestDeleteHero = useCallback(
+    (hero: Superhero) => {
+      if (confirm(`Delete hero "${hero.nickname}"?`)) {
+        deleteHeroMutation.mutate(hero.id, { onSuccess: () => setSelectedHeroId(null) });
+      }
+    },
+    [deleteHeroMutation]
+  );
 
-  const goToPreviousPage = useCallback(() => setPage(current => Math.max(1, current - 1)), []);
-  const goToNextPage = useCallback(() => setPage(current => current + 1), []);
+  const goToPreviousPage = useCallback(() => setPage((current) => Math.max(1, current - 1)), []);
+  const goToNextPage = useCallback(() => setPage((current) => current + 1), []);
 
   return {
-  page,
-  search,
+    page,
+    search,
     isCreateModalOpen,
     selectedHeroId,
     heroForEdit,
     heroesQuery,
     selectedHeroQuery,
-  deleteHeroMutation,
-  createHeroMutation,
+    deleteHeroMutation,
+    createHeroMutation,
     openCreateModal,
     closeCreateModal,
     openDetails,
@@ -59,7 +62,7 @@ export function useHeroesPageController() {
     requestDeleteHero,
     goToPreviousPage,
     goToNextPage,
-  setPage,
-  setSearch,
+    setPage,
+    setSearch,
   };
 }

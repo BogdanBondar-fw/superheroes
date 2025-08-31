@@ -20,7 +20,7 @@ export function mapRawHeroToUI(rawHero: RawHero): Superhero {
     origin_description: rawHero.originDescription || '',
     superpowers: rawHero.superpowers || '',
     catch_phrase: rawHero.catchPhrase || '',
-    images: rawHero.images?.map(imageObject => imageObject.url) || [],
+    images: rawHero.images?.map((imageObject) => imageObject.url) || [],
     created_at: rawHero.createdAt,
     updated_at: rawHero.updatedAt,
   };
