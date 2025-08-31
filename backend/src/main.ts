@@ -60,7 +60,7 @@ async function bootstrap() {
   console.log(`  RAILWAY_DEPLOYMENT_ID: ${process.env.RAILWAY_DEPLOYMENT_ID || 'not set'}`);
   console.log(`  RAILWAY_ENVIRONMENT: ${process.env.RAILWAY_ENVIRONMENT || 'not set'}`);
   console.log(`  NODE_ENV: ${process.env.NODE_ENV}`);
-  
+
   await app.listen(port, host);
   console.log(`[Bootstrap] ✅ Successfully listening on ${host}:${port}`);
   console.log(`[Bootstrap] Application is ready to receive requests`);
