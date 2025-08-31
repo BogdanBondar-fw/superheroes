@@ -80,6 +80,12 @@ Images are replaced when an images array is provided on update; send [] to clear
 ## Env
 `backend/.env` needs `DATABASE_URL` (PostgreSQL, sslmode=require if Neon).
 
+## Assumptions
+- Images are provided as externally hosted URLs (no file upload pipeline implemented).
+- API internally uses camelCase (realName, originDescription, catchPhrase); frontend maps to snake_case fields required by the test spec (real_name, origin_description, catch_phrase) via a mapper.
+- Pagination page size is fixed to 5 per spec; backend allows a pageSize param but UI uses 5.
+- Updating with an empty images array clears images; omitting images leaves existing images unchanged.
+
 ## Tests
 Run inside backend:
 ```bash
