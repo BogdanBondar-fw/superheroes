@@ -17,6 +17,9 @@ COPY . .
 # Build the application
 RUN npm run build
 
+# Debug: show what was built
+RUN ls -la dist/
+
 # Now install only production dependencies
 RUN rm -rf node_modules && npm ci --only=production && npm cache clean --force
 
@@ -26,4 +29,4 @@ ENV NODE_ENV=production
 # Railway will set PORT environment variable
 EXPOSE $PORT
 
-CMD ["node", "dist/main.js"]
+CMD ["npm", "run", "start:prod"]
