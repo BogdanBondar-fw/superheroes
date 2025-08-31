@@ -17,8 +17,8 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Now install only production dependencies
-RUN rm -rf node_modules && npm ci --only=production && npm cache clean --force
+# Generate Prisma client for production
+RUN npx prisma generate
 
 # Set environment
 ENV NODE_ENV=production
@@ -26,4 +26,4 @@ ENV NODE_ENV=production
 # Railway will set PORT environment variable
 EXPOSE $PORT
 
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start:migrate"]
