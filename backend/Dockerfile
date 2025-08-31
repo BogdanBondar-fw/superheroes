@@ -14,6 +14,9 @@ RUN npm ci && npm cache clean --force
 # Copy source code and scripts
 COPY . .
 
+# Make start script executable
+RUN chmod +x start.sh
+
 # Build the application
 RUN npm run build
 
@@ -23,7 +26,7 @@ RUN npx prisma generate
 # Set environment
 ENV NODE_ENV=production
 
-# Railway will set PORT environment variable
+# Render will set PORT environment variable
 EXPOSE $PORT
 
-CMD ["npm", "run", "start:migrate"]
+CMD ["./start.sh"]
