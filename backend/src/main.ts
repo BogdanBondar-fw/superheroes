@@ -53,38 +53,21 @@ async function bootstrap() {
   );
 
   const port = process.env.PORT ?? 3000;
-  const host = '0.0.0.0'; // Bind to all interfaces
+  const host = '0.0.0.0'; // Bind to all interfaces for Railway
   console.log(`[Bootstrap] About to listen on ${host}:${port}`);
+  console.log(`[Bootstrap] Railway Environment Variables:`);
+  console.log(`  PORT: ${process.env.PORT}`);
+  console.log(`  RAILWAY_DEPLOYMENT_ID: ${process.env.RAILWAY_DEPLOYMENT_ID || 'not set'}`);
+  console.log(`  RAILWAY_ENVIRONMENT: ${process.env.RAILWAY_ENVIRONMENT || 'not set'}`);
+  console.log(`  NODE_ENV: ${process.env.NODE_ENV}`);
+  
   await app.listen(port, host);
-  console.log(`[Bootstrap] Successfully listening on ${host}:${port}`);
+  console.log(`[Bootstrap] ✅ Successfully listening on ${host}:${port}`);
+  console.log(`[Bootstrap] Application is ready to receive requests`);
   console.log(`[Bootstrap] Available routes:`);
+  console.log(`  GET  ${host}:${port}/health`);
   console.log(`  GET  ${host}:${port}/api/health`);
   console.log(`  GET  ${host}:${port}/api/heroes`);
-
-  // Self-test: check if the app actually responds
-  setTimeout(() => {
-    // Test multiple endpoints
-    const testEndpoints = [
-      `http://localhost:${port}/`,
-      `http://localhost:${port}/api/health`,
-      `http://localhost:${port}/api/heroes?page=1`,
-    ];
-
-    testEndpoints.forEach((endpoint) => {
-      fetch(endpoint)
-        .then((response) => {
-          return response.text().then((result) => ({ response, result }));
-        })
-        .then(({ response, result }) => {
-          console.log(
-            `[Bootstrap] ✅ ${endpoint} -> ${response.status}: ${result.substring(0, 100)}`
-          );
-        })
-        .catch((err) => {
-          console.error(`[Bootstrap] ❌ ${endpoint} failed:`, String(err));
-        });
-    });
-  }, 2000);
 
   // Log environment info
   console.log(`[Bootstrap] Environment info:`);

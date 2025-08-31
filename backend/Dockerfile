@@ -1,18 +1,29 @@
 FROM node:20-alpine
+
 WORKDIR /app
 
-# Copy package manifests and prisma schema first (postinstall runs prisma generate)
+# Copy package.json and package-lock.json
 COPY package*.json ./
-COPY prisma ./prisma
-RUN npm ci
 
-# Copy the rest of the source
+# Copy Prisma schema for generate command during install
+COPY prisma ./prisma
+
+# Install dependencies (this runs prisma generate via postinstall)
+RUN npm ci --only=production && npm cache clean --force
+
+# Copy source code
 COPY . .
 
-# Build
+# Build the application
 RUN npm run build
 
+# Remove dev dependencies and source files to reduce image size
+RUN rm -rf src test node_modules && npm ci --only=production && npm cache clean --force
+
+# Set environment
 ENV NODE_ENV=production
 
-# Railway assigns dynamic port via PORT env var, don't hardcode expose
-CMD ["npm", "run", "start:prod"]
+# Railway will set PORT environment variable
+EXPOSE $PORT
+
+CMD ["node", "dist/main"]
