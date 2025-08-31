@@ -8,8 +8,8 @@ COPY package*.json ./
 # Copy Prisma schema for generate command during install
 COPY prisma ./prisma
 
-# Install dependencies (this runs prisma generate via postinstall)
-RUN npm ci --only=production && npm cache clean --force
+# Install all dependencies (including dev dependencies needed for build)
+RUN npm ci && npm cache clean --force
 
 # Copy source code
 COPY . .
@@ -17,8 +17,8 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Remove dev dependencies and source files to reduce image size
-RUN rm -rf src test node_modules && npm ci --only=production && npm cache clean --force
+# Now install only production dependencies
+RUN rm -rf node_modules && npm ci --only=production && npm cache clean --force
 
 # Set environment
 ENV NODE_ENV=production
