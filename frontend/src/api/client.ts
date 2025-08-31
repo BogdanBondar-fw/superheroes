@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://superheroes-production-17af.up.railway.app/api';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://superheroes-fc55.onrender.com/api';
 
 let baseUrlLogged = false;
 
