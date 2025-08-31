@@ -17,21 +17,31 @@ async function bootstrap() {
         .split(',')
         .map((o) => o.trim())
         .filter(Boolean)
-    : [
-        'http://localhost:5173', // Vite dev
-        'http://localhost:3000',
-      ];
-  app.enableCors({
-    origin: (origin: string | undefined, cb: (err: Error | null, allow?: boolean) => void) => {
-      if (!origin || explicitOrigins.includes(origin)) {
-        cb(null, true);
-        return;
-      }
-      cb(null, false);
-    },
-    methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type,Authorization',
-  });
+    : [];
+
+  app.enableCors(
+    explicitOrigins.length
+      ? {
+          origin: (
+            origin: string | undefined,
+            cb: (err: Error | null, allow?: boolean) => void
+          ) => {
+            if (!origin || explicitOrigins.includes(origin)) {
+              cb(null, true);
+              return;
+            }
+            cb(null, false);
+          },
+          methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+          allowedHeaders: 'Content-Type,Authorization',
+        }
+      : {
+          // Fallback: allow all origins if FRONTEND_ORIGIN not configured.
+          origin: true,
+          methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+          allowedHeaders: 'Content-Type,Authorization',
+        }
+  );
   app.useGlobalPipes(
     new ValidationPipe({ whitelist: true, transform: true, forbidUnknownValues: false })
   );
