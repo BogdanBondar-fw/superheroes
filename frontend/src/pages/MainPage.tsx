@@ -65,7 +65,10 @@ export const MainPage = () => {
                     {isOffline ? 'API offline (backend недоступен).' : 'Failed to load heroes.'}
                   </span>
                   <span className="text-white/50 text-xs break-all">{message}</span>
-                  <button onClick={() => heroesQuery.refetch()} className="underline self-start cursor-pointer">
+                  <button
+                    onClick={() => heroesQuery.refetch()}
+                    className="underline self-start cursor-pointer"
+                  >
                     Retry
                   </button>
                 </div>
@@ -86,9 +89,16 @@ export const MainPage = () => {
               </div>
             </div>
           ) : (
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-500" aria-label="heroes-list">
+            <section
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-500"
+              aria-label="heroes-list"
+            >
               {heroesQuery.data?.data.map((hero: Superhero, index: number) => (
-                <div key={hero.id} className="animate-in slide-in-from-bottom-4 duration-300" style={{animationDelay: `${index * 100}ms`}}>
+                <div
+                  key={hero.id}
+                  className="animate-in slide-in-from-bottom-4 duration-300"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
                   <HeroCard
                     id={hero.id}
                     nickname={hero.nickname}
@@ -147,7 +157,6 @@ export const MainPage = () => {
         )}
       </Modal>
 
-      {/* Detail Modal */}
       <Modal isOpen={!!selectedHeroId} onClose={closeDetails}>
         {selectedHeroQuery.isLoading && <div className="p-6 text-white/70">Loading hero...</div>}
         {selectedHeroQuery.isError && <div className="p-6 text-red-400">Failed to load hero.</div>}

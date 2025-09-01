@@ -11,7 +11,7 @@ type ImgUploaderProps = {
 export const ImgUploader = forwardRef<ImgUploaderHandle, ImgUploaderProps>(
   ({ value, onChange, max = 6 }, ref) => {
     const [url, setUrl] = useState('');
-    const isLikelyUrl = (u: string) => /^https?:\/\//i.test(u);
+    const isLikelyUrl = (urlString: string) => /^https?:\/\//i.test(urlString);
     const canAdd = useCallback(() => {
       const trimmed = url.trim();
       return !!trimmed && !value.includes(trimmed) && value.length < max && isLikelyUrl(trimmed);
@@ -22,7 +22,7 @@ export const ImgUploader = forwardRef<ImgUploaderHandle, ImgUploaderProps>(
       onChange([...value, trimmed]);
       setUrl('');
     };
-    const remove = (u: string) => onChange(value.filter((i) => i !== u));
+    const remove = (urlToRemove: string) => onChange(value.filter((item) => item !== urlToRemove));
 
     useImperativeHandle(
       ref,
@@ -47,10 +47,10 @@ export const ImgUploader = forwardRef<ImgUploaderHandle, ImgUploaderProps>(
         <div className="flex gap-2">
           <input
             value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
+            onChange={(event) => setUrl(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
                 add();
               }
             }}
@@ -71,10 +71,14 @@ export const ImgUploader = forwardRef<ImgUploaderHandle, ImgUploaderProps>(
         )}
         {value.length > 0 && (
           <div className="grid grid-cols-3 gap-3 animate-in fade-in duration-300">
-            {value.map((u, index) => (
-              <div key={u} className="relative group animate-in slide-in-from-bottom-2 duration-300" style={{animationDelay: `${index * 50}ms`}}>
+            {value.map((imageUrl, index) => (
+              <div
+                key={imageUrl}
+                className="relative group animate-in slide-in-from-bottom-2 duration-300"
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
                 <img
-                  src={u}
+                  src={imageUrl}
                   alt="hero"
                   className="w-full h-24 object-cover rounded-md border border-white/20"
                   onError={(event) => {
@@ -84,7 +88,7 @@ export const ImgUploader = forwardRef<ImgUploaderHandle, ImgUploaderProps>(
                 />
                 <button
                   type="button"
-                  onClick={() => remove(u)}
+                  onClick={() => remove(imageUrl)}
                   className="absolute top-1 right-1 bg-black/60 hover:bg-black/80 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer transform hover:scale-110 active:scale-95"
                   aria-label="Remove image"
                 >

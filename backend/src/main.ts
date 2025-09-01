@@ -18,14 +18,10 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     console.log('[Bootstrap] NestJS app created successfully');
 
-    // Enable JSON parsing middleware BEFORE any routes
     app.use(express.json({ limit: '10mb' }));
     app.use(express.urlencoded({ extended: true, limit: '10mb' }));
     console.log('[Bootstrap] JSON parsing middleware configured');
 
-    // (Removed global prefix to avoid duplicate /api/api paths – controllers already include 'api/' where needed)
-
-    // Log all incoming requests for debugging (very lightweight)
     app.use((req: Request, res: Response, next: NextFunction) => {
       console.log(`[REQ] ${req.method} ${req.url}`);
       console.log(`[REQ] Headers:`, JSON.stringify(req.headers, null, 2));
@@ -42,7 +38,6 @@ async function bootstrap() {
       next();
     });
 
-    // Simple CORS configuration for debugging
     app.enableCors({
       origin: ['https://superher0s.netlify.app', 'http://localhost:5173', 'http://localhost:3000'],
       methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
@@ -73,7 +68,6 @@ async function bootstrap() {
     console.log(`  GET  ${host}:${port}/api/health`);
     console.log(`  GET  ${host}:${port}/api/heroes`);
 
-    // Log environment info
     console.log(`[Bootstrap] Environment info:`);
     console.log(`  NODE_ENV: ${process.env.NODE_ENV}`);
     console.log(`  PORT: ${process.env.PORT}`);
@@ -85,7 +79,6 @@ async function bootstrap() {
 }
 void bootstrap();
 
-// Process-level safety nets for visibility
 process.on('unhandledRejection', (reason) => {
   console.error('[Process] Unhandled Rejection:', reason);
 });

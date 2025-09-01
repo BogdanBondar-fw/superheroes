@@ -24,8 +24,8 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
     try {
       await this.client.$connect();
       console.log('[Prisma] ✅ Connected to database successfully');
-    } catch (e) {
-      console.error('[Prisma] ❌ Connection failed:', (e as Error).message);
+    } catch (error) {
+      console.error('[Prisma] ❌ Connection failed:', (error as Error).message);
       console.error('[Prisma] App will continue without database');
     }
   }

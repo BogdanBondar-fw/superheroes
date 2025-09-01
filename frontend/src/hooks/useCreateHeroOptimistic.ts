@@ -55,7 +55,7 @@ export function useCreateHeroOptimistic(onCreated?: (hero: Superhero) => void) {
             if (!old) return old;
             return {
               ...old,
-              data: old.data.map((h: Superhero) => (h.id === context.tempId ? createdHero : h)),
+              data: old.data.map((hero: Superhero) => (hero.id === context.tempId ? createdHero : hero)),
             } as PaginationResponse<Superhero>;
           }
         );

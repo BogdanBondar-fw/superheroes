@@ -100,7 +100,11 @@ export const HeroEditForm: React.FC<Props> = ({
         <h2 className="text-xl font-semibold text-white animate-in fade-in duration-500 delay-100">
           {mode === 'create' ? 'Add your Hero' : 'Edit hero'}
         </h2>
-        <button type="button" onClick={() => setModalOpen(false)} className="cursor-pointer transform hover:scale-110 transition-all duration-200 active:scale-95">
+        <button
+          type="button"
+          onClick={() => setModalOpen(false)}
+          className="cursor-pointer transform hover:scale-110 transition-all duration-200 active:scale-95"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

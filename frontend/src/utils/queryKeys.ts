@@ -3,4 +3,3 @@ export const QUERY_KEYS = {
   heroes: (page: number, searchQuery?: string) => ['heroes', page, searchQuery ?? ''] as const,
   hero: (id: string | null) => ['hero', id] as const,
 };
-

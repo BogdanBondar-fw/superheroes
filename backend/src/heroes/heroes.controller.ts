@@ -29,7 +29,6 @@ export class HeroesController {
       console.log('[HeroesController] Body type:', typeof body);
       console.log('[HeroesController] Body keys:', Object.keys(body || {}));
 
-      // Manually create DTO from body since ValidationPipe isn't working
       const dto: CreateHeroDto = {
         nickname: body.nickname as string,
         realName: body.realName as string,
@@ -84,7 +83,6 @@ export class HeroesController {
       console.log('[HeroesController] Body type:', typeof body);
       console.log('[HeroesController] Body keys:', Object.keys(body || {}));
 
-      // Manually create DTO from body since ValidationPipe isn't working
       const dto: UpdateHeroDto = {
         nickname: body.nickname as string,
         realName: body.realName as string,

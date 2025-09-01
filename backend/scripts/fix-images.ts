@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 
 async function fixInvalidImageUrls() {
   try {
-    // Find invalid image URLs (via.placeholder.com and broken URLs)
     const invalidImages = await prisma.image.findMany({
       where: {
         OR: [
@@ -17,7 +16,6 @@ async function fixInvalidImageUrls() {
 
     console.log(`Found ${invalidImages.length} invalid images`);
 
-    // Delete invalid images
     if (invalidImages.length > 0) {
       const deleteResult = await prisma.image.deleteMany({
         where: {

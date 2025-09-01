@@ -9,7 +9,6 @@ export class HeroesService {
 
   async testConnection() {
     try {
-      // Простой тест подключения к базе
       const result = await this.prisma.client.$executeRaw`SELECT 1 as test`;
       const heroCount = await this.prisma.client.superhero.count();
       return {
@@ -28,7 +27,6 @@ export class HeroesService {
     try {
       console.log('[HeroesService] create called with:', JSON.stringify(dto, null, 2));
 
-      // Check if Prisma client is available
       if (!this.prisma.client) {
         console.error('[HeroesService] Prisma client is not available');
         throw new Error('Database connection not available');
